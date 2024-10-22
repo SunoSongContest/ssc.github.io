@@ -6,6 +6,7 @@ emoji: 6️⃣
 order: 1
 short_description: 200 songs, single submission period, Sunovision style voting, 
     a new wildcard prize for best brand new song, and more surprises in store!
+classname: page
 ---
 
 # {{ page.emoji }} What's new?

@@ -50,3 +50,35 @@
         }
     }
 }
+
+.page {
+    h1 {
+        margin-bottom: 48px;
+    }
+
+    h2 {
+        margin-top: 48px;
+        margin-bottom: 24px;
+    }
+
+    h3, h4, h5, h6 {
+        margin-top: 24px;
+        margin-bottom: 12px;
+    }
+
+    p, li {
+        text-align: justify;
+        line-height: 1.6rem;
+    }
+
+    a {
+        color: $base-active-color;
+        text-decoration: none;
+        transition: .1s;
+
+        &:hover, &:active {
+            text-decoration: underline;
+            transition: .3s;
+        }
+    }
+}
