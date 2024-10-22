@@ -25,7 +25,6 @@ description: >- # this means to ignore newlines until "baseurl:"
   competition that’s become the biggest of its kind. 
   It’s got artists from all over the world.
 baseurl: "/src" # the subpath of your site, e.g. /blog
-domain: ssc.github.io
 url: "https://ssc.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username:  jekyll
