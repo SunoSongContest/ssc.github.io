@@ -1,9 +1,34 @@
 <!DOCTYPE html>
 <html>
     {% include head.html %}
-  <body>
+  <body class="{% if page.classname %}{{ page.classname }}{% endif %}">
     <div class="header">
-      
+      <div class="socials">
+        <div class="back_home">
+          {% if page.url != "/" %}
+          <a href="{{ site.baseurl }}">
+            <i class="bi bi-house"></i>
+            Back to home
+          </a>
+          {% endif %}
+        </div>
+        <a href="https://www.youtube.com/@SunoSongContest" target="_blank">
+          <i class="bi bi-youtube"></i>
+          @SunoSongContest
+        </a>
+        <a href="https://x.com/SunoSongContest" target="_blank">
+          <i class="bi bi-twitter-x"></i>
+          @SunoSongContest
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61565605651660" target="_blank">
+          <i class="bi bi-facebook"></i>
+          Suno Song Contest
+        </a>
+        <a href="https://www.instagram.com/sunosongcontest/" target="_blank">
+          <i class="bi bi-instagram"></i>
+          sunosongcontest
+        </a>
+      </div>
     </div>
     <div class="wrapper">
       {{ content }}
