@@ -15,6 +15,14 @@ $base-active-bg-color: #8b5989;
 $base-border-color: rgba(255, 255, 255, 0.13);
 $base-border-radius: 5px;
 
+$media-size-small-mobile: 320px;
+$media-size-normal-mobile: 480px;
+$media-size-big-mobile: 600px;
+$media-size-small-tablet: 768px;
+$media-size-normal-tablet: 1024px;
+$media-size-big-tablet: 1280px;
+$media-size-laptop: 1366px;
+
 $site-baseurl: '{{ site.baseurl }}';
 
 @mixin media-query ($device) {

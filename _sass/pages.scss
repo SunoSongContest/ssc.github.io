@@ -34,6 +34,19 @@
                 text-align: right;
                 font-size: .9rem;
             }
+
+            @include media-query($media-size-normal-tablet) {
+                flex-direction:  column;
+                row-gap: 6px;
+
+                &:not(:last-child) {
+                    margin-bottom: 12px;
+                }
+
+                i {
+                    text-align: center;
+                }
+            }
         }
     }
 }
