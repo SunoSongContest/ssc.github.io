@@ -33,6 +33,6 @@ After your song has been approved, you will receive a message from one of us to 
 
 **Important:**
 * When you have submitted the form, please also send a direct message to one of @JoshuaSodil, @teemuth, or @jonathankennedy so we can contact you back for any corrections or acceptance.
-* When your song has been approved, your message will also include your <ins>voting password</ins>, which you will need when voting each week. Keep it secret, keep it safe!
+* When your song has been approved, your acceptance message will also include your <ins>voting password</ins>, which you will need when voting each week. Keep it secret, keep it safe!
 
 We will keep it a surprise which songs will participate in each week… so stay tuned for the weekly playlist reveals every Monday!
