@@ -4,7 +4,7 @@ title: How to submit songs
 permalink: /ssc6/howtosubmitsongs/
 emoji: 📩
 order: 4
-short_description: An easy to be filled Google form!
+short_description: Use Google Forms to submit!
 classname: page
 ---
 
