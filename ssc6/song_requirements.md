@@ -4,7 +4,7 @@ title: Song requirements
 permalink: /ssc6/songrequirements/
 emoji: 🎶
 order: 3
-short_description: One song per person, no changes!
+short_description: Read and follow all the requirements!
 classname: page
 ---
 
