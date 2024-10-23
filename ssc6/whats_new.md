@@ -9,7 +9,7 @@ short_description: 200 songs, single submission period, Sunovision style voting,
 classname: page
 ---
 
-# {{ page.emoji }} What's new?
+# 6️⃣ What's new?
 
 SSC6 will be similar to previous seasons in that it is all about appreciating each others’ music and creativity!
 
