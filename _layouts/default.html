@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  {% include head.html %}
+  <body class="{% if page.classname %}{{ page.classname }}{% endif %}">
+    <div class="header">
+      <div class="socials">
+        <div class="back_home">
+          {% if page.url != "/" %}
+          <a href="{{ site.baseurl }}">
+            <i class="bi bi-house"></i>
+            <span>Back to home</span>
+          </a>
+          {% endif %}
+        </div>
+        <a href="https://www.youtube.com/@SunoSongContest" target="_blank">
+          <i class="bi bi-youtube"></i>
+          <span>@SunoSongContest</span>
+        </a>
+        <a href="https://x.com/SunoSongContest" target="_blank">
+          <i class="bi bi-twitter-x"></i>
+          <span>@SunoSongContest</span>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61565605651660" target="_blank">
+          <i class="bi bi-facebook"></i>
+          <span>Suno Song Contest</span>
+        </a>
+        <a href="https://www.instagram.com/sunosongcontest/" target="_blank">
+          <i class="bi bi-instagram"></i>
+          <span>sunosongcontest</span>
+        </a>
+      </div>
+    </div>
+    <div class="wrapper">
+      {{ content }}
+    </div>
+    <div class="footer">
+      CSS made with ❤️ by <b>Dazorn</b>.<br/>
+      Created using 🧪<i>Jekyll</i> and hosting on 🐙<i>Github pages</i>.
+    </div>
+  </body>
+</html>
