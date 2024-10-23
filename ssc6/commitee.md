@@ -10,20 +10,17 @@ classname: page
 
 # 🧑‍💻 Committee
 
-* **@NamesTaken // Joshua Sodil**: *Communications and Community - ask me anything!*
+Questions? Reach out to our community outreach team first:
+* **@JoshuaSodil:** Communications and Community - ask me anything!
 
-* **@Teemuth**: *Aka DJ Teemuth of the Big Apple*
+* **@Teemuth:** Aka DJ Teemuth of the Big Apple
+* **@JonathanKennedy:** Queen of Sass, marketing, and branding
 
-* **@Dazorn**: *Wizard of Smooth Operations*
+The rest of the amazing organizing committee:
+* **@Dazorn:** Wizard of Smooth Operations
+* **@Spupuz:** Cool guy and automation master 
+* **@Sebmeister:** Master of ceremony and streams
+* **@Wappie:** The fearless founder of SSC 
+* **@I+AI:** We suspect it is secretly only AI… 
 
-* **@Spupuz**: *Cool guy and Head hacker of automations*
-
-* **@Sebmeister**: *Master of ceremony and streams*
-
-* **@JonathanKennedy**: *Queen of Sass, marketing, and branding*
-
-* **@Wappie**: *The fearless founder of SSC*
-
-* **@I+AI**: *We suspect it is secretly **only** AI…*
-
-<ins>And huge thanks to the dauntless @3daizy for her help with any moderating needs</ins>
+<ins>And... huge thanks to the dauntless **@3daizy** for her help with any moderating needs</ins>
