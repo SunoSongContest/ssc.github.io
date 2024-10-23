@@ -4,7 +4,7 @@ title: Terms of Service
 permalink: /ssc6/tos/
 emoji: 📜
 order: 9
-short_description: An agreement you must be okay with to participate in SSC6!
+short_description: By participating in SSC6, you agree to these terms!
 classname: page
 ---
 
