@@ -22,6 +22,7 @@ The voting period will open every Friday around 12 p.m. UTC and will end every S
 
 ## Points-based voting
 If you’re familiar with Eurovision, this will be very familiar - “Douze Points!!”
+
 For SSC6, we will use a points-based voting system. You will be able to choose which songs receive 12 points, 10 points, and one song each for 1-8 points. 
 
 Voting results will be checked and revealed every Sunday. Each week, the top 5 songs will progress to the finals. Ties may be decided by tie-breakers.
