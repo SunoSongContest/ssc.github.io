@@ -4,7 +4,7 @@ title: How to submit songs
 permalink: /ssc6/howtosubmitsongs/
 emoji: 📩
 order: 4
-short_description: Use Google Forms to submit!
+short_description: Use the Submission Form to submit!
 classname: page
 ---
 
@@ -13,7 +13,7 @@ classname: page
 Fill in the form. We will contact you for corrections and/or when your song is accepted. Then wait for the weekly reveals to learn when your song is playing!
 ___
 
-New in SSC6, we will be using Google Forms to submit information about your songs and to vote!
+New in SSC6, we will be using Google Forms to submit information about your songs and to vote! We will share a link to the form when the submission period opens.
 
 **Important:** <ins>Only songs submitted through the official form will be accepted.</ins> We encourage you to share your SSC6 song in the Discord chat so others can listen, but you must submit a form as well.
 
