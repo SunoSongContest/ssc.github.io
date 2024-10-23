@@ -4,7 +4,7 @@ title: How to vote
 permalink: /ssc6/howtovote/
 emoji: 📥
 order: 5
-short_description: An easy to be filled Google form, Eurovision-style voting!
+short_description: Use the Voting Form to vote, Eurovision-style voting!
 classname: page
 ---
 
