@@ -12,7 +12,7 @@ classname: page
 
 We love meeting new friends from all around the world, and we’ve had newcomers to Suno do very well in the previous rounds, including making it very far in the finals!
 
-Please encourage your friends and family to join in on the fun! And while only accepted participants can vote for songs, anyone is welcome to join in live to watch the streams, support, and cheer you on!
+Encourage your friends and family to join in on the fun! And while only accepted participants can vote for songs, anyone is welcome to join in live to watch the streams, support, and cheer you on!
 
 We also welcome all posts and sharing of songs and expressions of creativity on social media and elsewhere - tag us on [X](https://x.com/SunoSongContest), [Instagram](https://www.instagram.com/sunosongcontest), and [YouTube](https://www.youtube.com/@SunoSongContest) at ***@sunosongcontest***! 
 
