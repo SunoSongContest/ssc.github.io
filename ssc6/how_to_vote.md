@@ -25,7 +25,13 @@ If you’re familiar with Eurovision, this will be very familiar - “Douze Poin
 
 For SSC6, we will use a points-based voting system. You will be able to choose which songs receive 12 points, 10 points, and one song each for 1-8 points. 
 
-Voting results will be checked and revealed every Sunday. Each week, the top 5 songs will progress to the finals. Ties may be decided by tie-breakers.
+Voting results will be checked and revealed every Sunday. Each week, the top 5 songs will progress to the finals. If any songs tie, they’ll all advance to the finals together.
+
+## Second Chance Voting
+Each week, the next 5 highest-ranking songs (including ties) that didn’t reach the finals will join the Second Chance candidate list. After week 5, we’ll hold a Second Chance vote across all Second Chance candidates to choose the top songs from this group.
+
+In this vote, we’ll select as many songs as needed to bring the finals lineup to 30 songs. If the finals already have 30 songs due to ties, we’ll still add at least one more song from Second Chance voting. We'll use a tiebreaker in the rare case of a tie here.
+
 
 ## “No campaigning” rule
 Suno Song Contest is about sharing your creativity and connecting with others over incredible music! 

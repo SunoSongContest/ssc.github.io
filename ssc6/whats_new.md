@@ -27,6 +27,8 @@ If you were here for previous seasons of SSC, here’s what’s different or new
 
 * **Sunovision voting**: We are introducing a new voting system where you will assign points to your favorite songs, similar to Eurovision voting, for a more consistent and fair vote overall.
 
+* **2nd-chance voting is back:** The top songs from each week that didn’t make it to the finals will have another chance to make it through a 2nd-chance voting round after week 5.
+
 * **“No campaigning” rule**: SSC is all about appreciating everybody’s music, not about ‘like me’ tactics. If we find people trying to game the system or influence votes, we may penalize them at the committee’s discretion.
 
 * **Wildcard prize for new songs**: We like to encourage new songs created for SSC6! The creator of the highest-ranking new song (except for SSC6 winner) will be able to submit a song directly to the finals of next season - SSC7!
