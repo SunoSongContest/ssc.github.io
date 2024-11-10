@@ -6,6 +6,7 @@ emoji: 📩
 order: 4
 short_description: Use the Submission Form to submit!
 classname: page
+tag: guide
 ---
 
 # 📩 How to submit songs

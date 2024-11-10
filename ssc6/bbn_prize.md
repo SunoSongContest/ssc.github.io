@@ -6,6 +6,7 @@ emoji: 🎉
 order: 6
 short_description: A specific tag for style prompt, wildcard ticket to SSC7 finals!
 classname: page
+tag: guide
 ---
 
 # 🎉 Best brand new and wildcard prize

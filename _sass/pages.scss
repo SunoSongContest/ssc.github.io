@@ -81,4 +81,45 @@
             transition: .3s;
         }
     }
+
+    .results {
+
+        .result {
+            position: relative;
+            height: 32px;
+            background-color: #000;
+            border-radius: $base-border-radius;
+
+            &:not(:last-child) {
+                margin-bottom: 12px;
+            }
+
+            a {
+                color: white !important;
+                text-decoration: underline !important;
+            }
+
+            .p {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: var(--w);
+                height: 100%;
+                background-color: #573856;
+                border-radius: $base-border-radius;
+            }
+
+            .d {
+                position: absolute;
+                top: 50%;
+                left: 12px;
+                transform: translateY(-50%);
+            }
+
+            @include media-query($media-size-big-mobile) {
+                padding: 3px;
+                height: 48px;
+            }
+        }
+    }
 }

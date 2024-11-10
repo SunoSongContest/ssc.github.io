@@ -6,6 +6,7 @@ emoji: ❓
 order: 10
 short_description: Got some doubts? Check here!
 classname: page
+tag: guide
 ---
 
 # ❓ Frequently Asked Questions

@@ -33,6 +33,7 @@
 
             &:hover, &:active {
                 color: $base-active-color;
+                text-decoration: none;
                 transition: .3s;
             }
         }
@@ -81,4 +82,10 @@
     text-align: center;
     font-size: .8rem;
     line-height: 1.4rem;
+
+    @include media-query($media-size-big-tablet) {
+        margin: 64px 16px;
+        width: calc(100% - 32px);
+        max-width: calc(100% - 32px);
+    }
 }

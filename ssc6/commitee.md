@@ -6,6 +6,7 @@ emoji: 🧑‍💻
 order: 7
 short_description: Our superheroes squad!
 classname: page
+tag: guide
 ---
 
 # 🧑‍💻 Committee

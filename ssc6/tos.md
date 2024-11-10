@@ -6,6 +6,7 @@ emoji: 📜
 order: 9
 short_description: By participating in SSC6, you agree to these terms!
 classname: page
+tag: guide
 ---
 
 # 📜 Terms of Service
