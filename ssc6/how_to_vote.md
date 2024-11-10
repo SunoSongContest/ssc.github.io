@@ -6,6 +6,7 @@ emoji: 📥
 order: 5
 short_description: Use the Voting Form to vote, Eurovision-style voting!
 classname: page
+tag: guide
 ---
 
 # 📥 How to vote

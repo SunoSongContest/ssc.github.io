@@ -6,6 +6,7 @@ emoji: 🎶
 order: 3
 short_description: Read and follow all the requirements!
 classname: page
+tag: guide
 ---
 
 # 🎶 Song requirements

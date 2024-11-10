@@ -6,6 +6,7 @@ emoji: 📢
 order: 8
 short_description: Share the love with your friends and family!
 classname: page
+tag: guide
 ---
 
 # 📢 Spread the word!
