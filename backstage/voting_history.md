@@ -1,7 +1,7 @@
 ---
 layout: page
 title: SSC Voting History
-permalink: /shotout/ssc-voting-history/
+permalink: /backstage/ssc-voting-history/
 classname: page
 ---
 
