@@ -292,6 +292,8 @@ results:
 
 # 🏆 Week 2 Results
 
+[Week 2 playlist](https://suno.com/playlist/c3d6aebc-f99b-4fc0-96c0-cfb2a3958a20)
+
 <div class="results">
     {% for item in page.results %}
         {% assign perc = item['votes'] | divided_by: page.results[0]['votes'] | times: 100 %}
