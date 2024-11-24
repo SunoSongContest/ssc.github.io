@@ -187,7 +187,7 @@ results:
       votes: 120.0
       final: false
       2nd: false
-      author: @mooniewolfe its same as my discord username
+      author: mooniewolfe
       country: United States
       url: https://suno.com/song/88aa15fd-ec7b-4293-b20a-1a3fc76087c6
   -   title: Old November and Rusty Dog
