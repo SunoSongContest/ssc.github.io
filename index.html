@@ -48,6 +48,19 @@ classname: home
         {% endif %}
     {% endfor %}
 </div>
+<h2 class="rules-h">Tools</h2>
+<div class="pages">
+    {% for page in pages %}
+        {% if page.path contains 'ssc6/tools/' and page.title and page.emoji and page.tag == 'tool' %}
+        <a href="{{ page.url | prepend: site.baseurl }}">
+            <span class="emoji">{{ page.emoji }}</span>
+            <b>{{ page.title }}</b>
+            <i>{{ page.short_description }}</i>
+        </a>
+        {% endif %}
+    {% endfor %}
+</div>
+<!-- OLD
 <h2 class="rules-h">Results</h2>
 <div class="pages">
     {% for page in pages %}
@@ -60,3 +73,4 @@ classname: home
         {% endif %}
     {% endfor %}
 </div>
+-->
