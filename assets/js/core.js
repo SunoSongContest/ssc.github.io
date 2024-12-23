@@ -79,12 +79,12 @@ async function getAvailableEditions() {
     const csvPath = `${basePath}/assets/csv`;
     const editions = [];
 
-    // Use predefined editions instead of directory listing
-    for (const edition in SSC_EDITIONS) {
+    for (const edition of window.CSV_MANIFEST.getAllEditions()) {
+        const files = window.CSV_MANIFEST.getEditionFiles(edition);
         try {
-            const response = await fetch(`${csvPath}/${SSC_EDITIONS[edition].votes}`);
+            const response = await fetch(`${csvPath}/${files.votes}`);
             if (response.ok) {
-                editions.push(parseInt(edition));
+                editions.push(edition);
                 console.log(`Edition ${edition} available`);
             }
         } catch (error) {
@@ -92,9 +92,8 @@ async function getAvailableEditions() {
         }
     }
 
-    return editions.sort((a, b) => a - b);
+    return editions;
 }
-
 async function loadEditionData(edition) {
     const basePath = window.location.pathname.split('/rules')[0] + '/rules';
     const csvPath = `${basePath}/assets/csv`;
