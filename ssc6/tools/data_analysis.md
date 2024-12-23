@@ -662,12 +662,24 @@ tag: tool
     </div>
 </div>
 
-<!-- Add Chart.js before other scripts -->
+<!-- Add proper script loading order with correct paths -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="{{ "/assets/js/data-handlers.js" | prepend: site.baseurl }}"></script>
+<script>
+    // Define base path handling
+    const getBasePath = () => {
+        const isGitHub = window.location.hostname.includes('github.io');
+        return isGitHub ? '/rules' : '';
+    };
+    // Configure asset paths
+    window.assetPaths = {
+        csv: `${getBasePath()}/assets/csv`,
+        js: `${getBasePath()}/assets/js`,
+        readme: `${getBasePath()}/ssc6/tools/README.md`
+    };
+</script>
 <script src="{{ "/assets/js/core.js" | prepend: site.baseurl }}"></script>
+<script src="{{ "/assets/js/data-handlers.js" | prepend: site.baseurl }}"></script>
 <script src="{{ "/assets/js/ui-handlers.js" | prepend: site.baseurl }}"></script>
 <script src="{{ "/assets/js/visualization.js" | prepend: site.baseurl }}"></script>
-<script src="{{ "/assets/js/podium.js" | prepend: site.baseurl }}">
-</script><script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="{{ "/assets/js/podium.js" | prepend: site.baseurl }}"></script></script><script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
