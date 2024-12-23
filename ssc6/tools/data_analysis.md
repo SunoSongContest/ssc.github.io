@@ -665,8 +665,8 @@ tag: tool
 <!-- Add Chart.js before other scripts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="{{ "/assets/js/core.js" | prepend: site.baseurl }}"></script>
 <script src="{{ "/assets/js/data-handlers.js" | prepend: site.baseurl }}"></script>
+<script src="{{ "/assets/js/core.js" | prepend: site.baseurl }}"></script>
 <script src="{{ "/assets/js/ui-handlers.js" | prepend: site.baseurl }}"></script>
 <script src="{{ "/assets/js/visualization.js" | prepend: site.baseurl }}"></script>
 <script src="{{ "/assets/js/podium.js" | prepend: site.baseurl }}">

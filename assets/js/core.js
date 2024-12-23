@@ -22,13 +22,24 @@ async function loadReadme() {
         console.error('Error loading README:', error);
     }
 }
-// Main initialization
-document.addEventListener('DOMContentLoaded', () => {
-    initializeMobileMenu();
-    initializeMenu();
-    fetchData();
-});
+// Define initialization functions first
+function initializeCore() {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Wait for ui-handlers.js to load
+        if (typeof initializeMenu === 'function') {
+            initializeMenu();
+            initializeMobileMenu();
+            fetchData();
+        } else {
+            console.log('Waiting for UI handlers to load...');
+            // Retry after a short delay
+            setTimeout(initializeCore, 100);
+        }
+    });
+}
 
+// Start initialization
+initializeCore();
 function initializeMobileMenu() {
     const menuToggle = document.querySelector('.menu-toggle');
     const sideMenu = document.querySelector('.side-menu');
