@@ -53,3 +53,27 @@ function initializeMobileMenu() {
         }
     });
 }
+
+async function getAvailableEditions() {
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    const baseUrl = isGitHubPages ? 
+        'https://sunosongcontest.github.io/rules' : 
+        '/rules';
+    const csvPath = `${baseUrl}/assets/csv`;
+    const editions = [];
+    
+    // Check for each SSC edition with proper path
+    for(let i = 5; i <= 10; i++) {
+        try {
+            const response = await fetch(`${csvPath}/ssc${i}_Votes_list.csv`);
+            if(response.ok) {
+                editions.push(i);
+            }
+        } catch(e) {
+            console.log(`Edition ${i} not available`);
+            continue;
+        }
+    }
+    
+    return editions;
+}
