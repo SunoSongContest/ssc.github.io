@@ -65,64 +65,51 @@ function initializeMobileMenu() {
     });
 }
 
+// Define known CSV files configuration
+const SSC_EDITIONS = {
+    6: {
+        votes: 'ssc6_Votes_list.csv',
+        submissions: 'ssc6_submissions.csv'
+    }
+    // Add more editions as needed
+};
+
 async function getAvailableEditions() {
     const basePath = window.location.pathname.split('/rules')[0] + '/rules';
     const csvPath = `${basePath}/assets/csv`;
     const editions = [];
 
-    try {
-        // First fetch the directory listing
-        const response = await fetch(csvPath);
-        const files = await response.text();
-        
-        // Use regex to find all SSC edition files
-        const sscPattern = /ssc(\d+)_[A-Za-z_]+\.csv/i;
-        const matches = files.match(new RegExp(sscPattern.source, 'gi')) || [];
-        
-        // Extract unique edition numbers
-        matches.forEach(filename => {
-            const match = filename.match(sscPattern);
-            if (match) {
-                const edition = parseInt(match[1]);
-                if (!editions.includes(edition)) {
-                    editions.push(edition);
-                }
+    // Use predefined editions instead of directory listing
+    for (const edition in SSC_EDITIONS) {
+        try {
+            const response = await fetch(`${csvPath}/${SSC_EDITIONS[edition].votes}`);
+            if (response.ok) {
+                editions.push(parseInt(edition));
+                console.log(`Edition ${edition} available`);
             }
-        });
-        
-        console.log('Found editions:', editions);
-        return editions.sort((a, b) => a - b);
-        
-    } catch (error) {
-        console.warn('Directory listing failed, using fallback method');
-        return [];
+        } catch (error) {
+            console.log(`Edition ${edition} not available`);
+        }
     }
+
+    return editions.sort((a, b) => a - b);
 }
 
 async function loadEditionData(edition) {
     const basePath = window.location.pathname.split('/rules')[0] + '/rules';
     const csvPath = `${basePath}/assets/csv`;
     
+    if (!SSC_EDITIONS[edition]) {
+        console.error(`Edition ${edition} not configured`);
+        return null;
+    }
+
     try {
-        // Get directory listing first
-        const response = await fetch(csvPath);
-        const files = await response.text();
-        
-        // Find the exact filenames for this edition
-        const votesFile = files.match(new RegExp(`ssc${edition}_.*votes.*\.csv`, 'i'))?.[0];
-        const submissionsFile = files.match(new RegExp(`ssc${edition}_.*submissions.*\.csv`, 'i'))?.[0];
-        
-        if (!votesFile || !submissionsFile) {
-            throw new Error(`Files not found for SSC${edition}`);
-        }
-        
-        // Load the files using exact names
         const [submissionsResponse, votesResponse] = await Promise.all([
-            fetch(`${csvPath}/${submissionsFile}`),
-            fetch(`${csvPath}/${votesFile}`)
+            fetch(`${csvPath}/${SSC_EDITIONS[edition].submissions}`),
+            fetch(`${csvPath}/${SSC_EDITIONS[edition].votes}`)
         ]);
         
-        // Process the data
         const submissionsText = await submissionsResponse.text();
         const votesText = await votesResponse.text();
         
