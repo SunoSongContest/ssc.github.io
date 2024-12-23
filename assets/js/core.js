@@ -55,25 +55,33 @@ function initializeMobileMenu() {
 }
 
 async function getAvailableEditions() {
-    const isGitHubPages = window.location.hostname.includes('github.io');
-    const baseUrl = isGitHubPages ? 
-        'https://sunosongcontest.github.io/rules' : 
-        '/rules';
-    const csvPath = `${baseUrl}/assets/csv`;
+    // Get base URL from current page location
+    const basePath = window.location.pathname.split('/rules')[0] + '/rules';
+    const csvPath = `${basePath}/assets/csv`;
     const editions = [];
     
-    // Check for each SSC edition with proper path
+    console.log('Using CSV path:', csvPath);
+    
+    // Check for each SSC edition
     for(let i = 5; i <= 10; i++) {
+        const filename = `ssc${i}_Votes_list.csv`;
         try {
-            const response = await fetch(`${csvPath}/ssc${i}_Votes_list.csv`);
+            const response = await fetch(`${csvPath}/${filename}`);
             if(response.ok) {
                 editions.push(i);
+                console.log(`Found edition ${i}`);
             }
         } catch(e) {
-            console.log(`Edition ${i} not available`);
+            console.log(`Edition ${i} not available:`, e);
             continue;
         }
     }
     
     return editions;
+}
+
+// Helper function to get correct asset path
+function getAssetPath(relativePath) {
+    const basePath = window.location.pathname.split('/rules')[0] + '/rules';
+    return `${basePath}${relativePath}`;
 }
