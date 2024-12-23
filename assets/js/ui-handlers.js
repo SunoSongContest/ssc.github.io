@@ -117,39 +117,27 @@ function initializeSelects() {
     const weekSelect = document.getElementById('weekSelect');
     const summaryWeekSelect = document.getElementById('summaryWeekSelect');
     
-    // Clear existing options
     weekSelect.innerHTML = '<option value="">Select Week</option>';
     summaryWeekSelect.innerHTML = '<option value="">Select Week</option>';
     
-    // Get unique weeks from votes data
-    const uniqueWeeks = [...new Set(votes.map(v => v.week))].sort((a, b) => {
-        if (!isNaN(a) && !isNaN(b)) return parseInt(a) - parseInt(b);
-        if (!isNaN(a)) return -1;
-        if (!isNaN(b)) return 1;
-        if (a === '2nd-chance') return -1;
-        if (b === '2nd-chance') return 1;
-        return 0;
-    });
-
-    // Populate both selects
-    uniqueWeeks.forEach(week => {
-        const option1 = document.createElement('option');
-        option1.value = week;
-        option1.textContent = isNaN(week) ? week : `Week ${week}`;
-        weekSelect.appendChild(option1);
-        
-        const option2 = document.createElement('option');
-        option2.value = week;
-        option2.textContent = isNaN(week) ? week : `Week ${week}`;
-        summaryWeekSelect.appendChild(option2);
-    });
+    const edition = document.getElementById('sscEditionSelect').value;
+    const editionData = window.CSV_MANIFEST.getEditionFiles(parseInt(edition));
+    
+    if (editionData) {
+        for (let week = 1; week <= editionData.weeks; week++) {
+            const option1 = document.createElement('option');
+            option1.value = week.toString();
+            option1.textContent = `Week ${week}`;
+            weekSelect.appendChild(option1.cloneNode(true));
+            summaryWeekSelect.appendChild(option1);
+        }
+    }
 
     // Add all event listeners in one place
     weekSelect.addEventListener('change', updateSongSelect);
     document.getElementById('songSelect').addEventListener('change', updateVisualization);
     document.getElementById('summaryWeekSelect').addEventListener('change', updateWeeklySummary);
-}
-function updateSongSelect() {
+}function updateSongSelect() {
     const weekSelect = document.getElementById('weekSelect');
     const songSelect = document.getElementById('songSelect');
     const selectedWeek = weekSelect.value;

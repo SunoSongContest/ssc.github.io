@@ -1,16 +1,12 @@
 // Data fetching and parsing functions
 async function fetchData() {
     try {
-        const _assetsPath = window.location.origin + '/rules/assets/csv/';
-        
-        // First fetch available editions
-        const editions = await getAvailableEditions(_assetsPath);
+        const editions = window.CSV_MANIFEST.getAllEditions();
         populateEditionSelect(editions);
         
         // Add event listener for edition changes
         const editionSelect = document.getElementById('sscEditionSelect');
         editionSelect.addEventListener('change', (e) => {
-            // Show menu items when edition is selected
             const menuItems = document.querySelectorAll('.menu-item[data-view]');
             menuItems.forEach(item => {
                 if(e.target.value) {
@@ -25,34 +21,47 @@ async function fetchData() {
         console.error('Error loading editions:', error);
     }
 }
-async function getAvailableEditions() {
-    const csvPath = `${window.location.origin}/rules/assets/csv/`;
-    const editions = new Set();
+
+async function loadEditionData(event) {
+    const edition = event.target.value;
+    if(!edition) return;
+    
+    const files = window.CSV_MANIFEST.getEditionFiles(edition);
+    if (!files) return;
+    
+    const csvPath = `${window.location.origin}/rules/assets/csv`;
     
     try {
-        const response = await fetch(csvPath);
-        const files = await response.text();
+        const [submissionsResponse, votesResponse] = await Promise.all([
+            fetch(`${csvPath}/${files.submissions}`),
+            fetch(`${csvPath}/${files.votes}`)
+        ]);
+
+        const submissionsText = await submissionsResponse.text();
+        const votesText = await votesResponse.text();
         
-        // Store the exact case pattern we find
-        const sscMatch = files.match(/(?:SSC|ssc)\d+_[A-Za-z_]+\.csv/i);
-        if (sscMatch) {
-            const pattern = sscMatch[0];
-            filenameCases.votes = pattern.includes('Votes') ? 'Votes' : 'votes';
-            filenameCases.submissions = pattern.includes('Submissions') ? 'Submissions' : 'submissions';
+        submissions = parseSubmissionsCSV(submissionsText);
+        votes = parseVotesCSV(votesText);
+        
+        initializeSelects();
+        initializeMenu();
+        
+        // Reset views
+        document.getElementById('songSelect').value = '';
+        document.getElementById('weekSelect').value = '';
+        document.getElementById('summaryWeekSelect').value = '';
+        
+        const statsContainer = document.querySelector('.stats-container');
+        statsContainer.style.display = 'none';
+        
+        if(chart) {
+            chart.destroy();
         }
-
-        const matches = files.match(/(?:SSC|ssc)(\d+)_/gi) || [];
-        matches.forEach(match => {
-            const edition = match.match(/\d+/)[0];
-            editions.add(parseInt(edition));
-        });
-
-        return Array.from(editions).sort((a, b) => a - b);
-    } catch(e) {
-        console.warn('Directory listing failed:', e);
-        return [];
+    } catch (error) {
+        console.error('Error loading edition data:', error);
     }
 }
+
 function parseSubmissionsCSV(csv) {
     const lines = csv.split('\n');
     const result = [];
@@ -70,6 +79,7 @@ function parseSubmissionsCSV(csv) {
     
     return result;
 }
+
 function parseVotesCSV(csv) {
     const lines = csv.split('\n');
     const result = [];

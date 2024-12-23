@@ -75,23 +75,8 @@ const SSC_EDITIONS = {
 };
 
 async function getAvailableEditions() {
-    const basePath = window.location.pathname.split('/rules')[0] + '/rules';
-    const csvPath = `${basePath}/assets/csv`;
-    const editions = [];
-
-    for (const edition of window.CSV_MANIFEST.getAllEditions()) {
-        const files = window.CSV_MANIFEST.getEditionFiles(edition);
-        try {
-            const response = await fetch(`${csvPath}/${files.votes}`);
-            if (response.ok) {
-                editions.push(edition);
-                console.log(`Edition ${edition} available`);
-            }
-        } catch (error) {
-            console.log(`Edition ${edition} not available`);
-        }
-    }
-
+    const editions = window.CSV_MANIFEST.getAllEditions();
+    console.log('Available editions from manifest:', editions);
     return editions;
 }
 async function loadEditionData(edition) {
