@@ -10,6 +10,34 @@ tag: tool
 ---
 
 <style>
+    .finals-podium {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        padding: 2rem;
+    }
+
+    .winners-row {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr 1fr;
+        gap: 2rem;
+        align-items: flex-end;
+    }
+
+    .bbn-row {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid var(--primary-color);
+        text-align: center;
+    }
+
+    .podium-item-large {
+        transform: scale(1.2);
+    }
+
+    .podium-item-medium {
+        transform: scale(1);
+    }
     .container {
         max-width: 1200px;
         margin: 0 auto;
@@ -140,6 +168,41 @@ tag: tool
         margin: 0.2rem 0;
     }
     :root {
+
+    /* Existing styles... */
+
+    #readme-view {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        line-height: 1.6;
+        color: var(--text-color);
+    }
+
+    #readme-view h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    #readme-view h2 {
+        margin: 2rem 0 1rem;
+    }
+
+    #readme-view ul {
+        list-style-type: disc;
+        margin-left: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    #readme-view li {
+        margin-bottom: 0.5rem;
+    }
+
+    #readme-view code {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.2rem 0.4rem;
+        border-radius: 3px;
+    }
         --primary-color: #5a1e5a;
         --secondary-color: #191919;
         --background-color: #1a1a1a;
@@ -177,22 +240,19 @@ tag: tool
         gap: 1rem;
         margin-bottom: 2rem;
     }
+      #sscEditionSelect {
+          margin: 10px 20px;
+          width: calc(100% - 40px);
+          background: var(--secondary-color);
+          color: var(--text-color);
+          border: 2px solid var(--primary-color);
+          border-radius: 8px;
+          padding: 8px;
+      }
 
-    select {
-        padding: 0.8rem;
-        border: 2px solid var(--primary-color);
-        border-radius: 8px;
-        font-size: 1rem;
-        background: var(--secondary-color);
-        color: var(--text-color);
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    select:hover {
-        border-color: rgb(90,30,90);
-    }
-
+      #sscEditionSelect:hover {
+          border-color: rgb(90,30,90);
+      }
     .stats-container {
         display: grid;
         grid-template-columns: 1fr 2fr;
@@ -432,10 +492,10 @@ tag: tool
         }
     
         .podium-rank {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            color: white;
-            margin: 0.5rem 0;
+            color: gold;
+            margin: 1rem 0;
         }
     
         .podium-points {
@@ -466,6 +526,33 @@ tag: tool
         .second-chance-podium .podium-points {
             font-size: 1rem;
         }
+
+        .podium-winners {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            gap: 2rem;
+            align-items: flex-end;
+            margin: 2rem 0;
+        }
+
+        .podium-item-large {
+            transform: scale(1.2);
+        }
+
+        .podium-item-medium {
+            transform: scale(1);
+        }
+
+        .podium-item-small {
+            transform: scale(0.8);
+        }
+
+        .bbn-section {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--primary-color);
+        }
+
         .copyright {
             margin-top: auto;   /* Push to bottom */
             padding: 20px 10px;
@@ -475,6 +562,10 @@ tag: tool
             color: var(--text-color);
             opacity: 0.7;
         }
+        .menu-item.hidden {
+            display: none;
+        }
+
 </style>
 <div class="menu-toggle">
     <div class="hamburger">
@@ -484,22 +575,28 @@ tag: tool
     </div>
 </div>
 <div class="side-menu">
-    <!-- Existing menu items -->
     <a class="menu-item" href="{{ site.baseurl }}">
         <span>Back to homepage</span>
     </a>
-    <div class="menu-item active" data-view="song-votes">
+    <select id="sscEditionSelect" class="menu-item">
+        <option value="">Select SSC Edition</option>
+    </select>
+    <div class="menu-item hidden" data-view="song-votes">
         <span>Song Votes</span>
     </div>
-    <div class="menu-item" data-view="weekly-summary">
+    <div class="menu-item hidden" data-view="weekly-summary">
         <span>Weekly Summary</span>
     </div>
     <div class="copyright">
-        &copy; SSC & spupuz
+        © SSC & spupuz
     </div>
 </div>
 <div class="container">
-    <div id="song-votes-view" style="display: block;">
+    <!-- README view comes first -->
+    <div id="readme-view">
+        <!-- README content will be loaded here -->
+    </div>
+    <div id="song-votes-view" style="display: none;">
         <h1>🎶 SSC Votes Visualization</h1>
         <div class="controls">
             <select id="weekSelect">
@@ -544,7 +641,6 @@ tag: tool
             <canvas id="votesChart"></canvas>
         </div>
     </div>
-    <!-- Weekly Summary View -->
     <div id="weekly-summary-view" style="display: none;">
         <h1>🎶 Weekly Voting Summary</h1>
         <select id="summaryWeekSelect">
@@ -552,11 +648,11 @@ tag: tool
         </select>
         <div class="top-songs-podium" style="display: none;">
             <div class="podium-section">
-                <h2>Finalists</h2>
+                <h2 class="finalists-title" style="display: none;">Finalists</h2>
                 <div class="podium-container finalists-podium"></div>
             </div>
             <div class="podium-section second-chance-section" style="display: none;">
-                <h2>Second Chance</h2>
+                <h2 class="second-chance-title" style="display: none;">Second Chance</h2>
                 <div class="podium-container second-chance-podium"></div>
             </div>
         </div>
@@ -565,5 +661,13 @@ tag: tool
         </div>
     </div>
 </div>
+
+<!-- Add Chart.js before other scripts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{{ "/assets/js/script.js" | prepend: site.baseurl }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="{{ "/assets/js/core.js" | prepend: site.baseurl }}"></script>
+<script src="{{ "/assets/js/data-handlers.js" | prepend: site.baseurl }}"></script>
+<script src="{{ "/assets/js/ui-handlers.js" | prepend: site.baseurl }}"></script>
+<script src="{{ "/assets/js/visualization.js" | prepend: site.baseurl }}"></script>
+<script src="{{ "/assets/js/podium.js" | prepend: site.baseurl }}">
+</script><script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>

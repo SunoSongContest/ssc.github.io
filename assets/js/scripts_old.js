@@ -3,40 +3,129 @@ let submissions = [];
 let chart = null;
 let audioContext = null;
 let analyser = null;
+let filenameCases = {
+    submissions: null,
+    votes: null
+};
 
 async function fetchData() {
     try {
         const _assetsPath = window.location.origin + '/rules/assets/csv/';
         
-        const [submissionsResponse, votesResponse] = await Promise.all([
-            fetch(_assetsPath + 'submissions.csv'),
-            fetch(_assetsPath +'Votes_list.csv')
-        ]);
+        // First fetch available editions
+        const editions = await getAvailableEditions(_assetsPath);
+        populateEditionSelect(editions);
         
+        // Add event listener for edition changes
+        const editionSelect = document.getElementById('sscEditionSelect');
+        editionSelect.addEventListener('change', (e) => {
+            // Show menu items when edition is selected
+            const menuItems = document.querySelectorAll('.menu-item[data-view]');
+            menuItems.forEach(item => {
+                if(e.target.value) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+            loadEditionData(e);
+        });
+    } catch (error) {
+        console.error('Error loading editions:', error);
+    }
+}
+async function getAvailableEditions() {
+    const csvPath = `${window.location.origin}/rules/assets/csv/`;
+    const editions = new Set();
+    
+    try {
+        const response = await fetch(csvPath);
+        const files = await response.text();
+        
+        // Store the exact case pattern we find
+        const sscMatch = files.match(/(?:SSC|ssc)\d+_[A-Za-z_]+\.csv/i);
+        if (sscMatch) {
+            const pattern = sscMatch[0];
+            filenameCases.votes = pattern.includes('Votes') ? 'Votes' : 'votes';
+            filenameCases.submissions = pattern.includes('Submissions') ? 'Submissions' : 'submissions';
+        }
+
+        const matches = files.match(/(?:SSC|ssc)(\d+)_/gi) || [];
+        matches.forEach(match => {
+            const edition = match.match(/\d+/)[0];
+            editions.add(parseInt(edition));
+        });
+
+        return Array.from(editions).sort((a, b) => a - b);
+    } catch(e) {
+        console.warn('Directory listing failed:', e);
+        return [];
+    }
+}
+
+function populateEditionSelect(editions) {
+    const select = document.getElementById('sscEditionSelect');
+    select.innerHTML = '<option value="">Select SSC Edition</option>';
+    
+    editions.forEach(edition => {
+        const option = document.createElement('option');
+        option.value = edition;
+        option.textContent = `SSC${edition}`;
+        select.appendChild(option);
+    });
+}
+async function loadEditionData(event) {
+    const edition = event.target.value;
+    if(!edition) return;
+    
+    const csvPath = `${window.location.origin}/rules/assets/csv/`;
+    
+    try {
+        const [submissionsResponse, votesResponse] = await Promise.all([
+            fetch(`${csvPath}SSC${edition}_${filenameCases.submissions}.csv`),
+            fetch(`${csvPath}SSC${edition}_${filenameCases.votes}_list.csv`)
+        ]);
+
         const submissionsText = await submissionsResponse.text();
         const votesText = await votesResponse.text();
         
         submissions = parseSubmissionsCSV(submissionsText);
         votes = parseVotesCSV(votesText);
         
+        // Initialize selects after data is loaded
         initializeSelects();
-        initializeMenu(); // Make sure this is called
+        initializeMenu(); // Re-initialize menu with new data
         
-        // Initialize summary week select
-        const summaryWeekSelect = document.getElementById('summaryWeekSelect');
-        for (let week = 1; week <= 5; week++) {
-            const option = document.createElement('option');
-            option.value = week.toString();
-            option.textContent = `Week ${week}`;
-            summaryWeekSelect.appendChild(option);
+        // Reset views
+        document.getElementById('songSelect').value = '';
+        document.getElementById('weekSelect').value = '';
+        document.getElementById('summaryWeekSelect').value = '';
+        
+        // Clear any existing visualizations
+        const statsContainer = document.querySelector('.stats-container');
+        statsContainer.style.display = 'none';
+        
+        if(chart) {
+            chart.destroy();
         }
-        
-        summaryWeekSelect.addEventListener('change', updateWeeklySummary);
-        initializeMobileMenu();
     } catch (error) {
-        console.error('Error loading data:', error);
+        console.error('Error loading edition data:', error);
     }
 }
+
+        
+async function tryPatterns(basePath, patterns) {
+    for (const pattern of patterns) {
+        try {
+            const response = await fetch(`${basePath}${pattern}`);
+            if (response.ok) return response;
+        } catch (e) {
+            continue;
+        }
+    }
+    throw new Error('No matching file found');
+}
+
 function initializeMobileMenu() {
     const menuToggle = document.querySelector('.menu-toggle');
     const sideMenu = document.querySelector('.side-menu');
@@ -67,32 +156,7 @@ function initializeMobileMenu() {
         });
     });
 }
-function initializeMenu() {
-    console.log('Initializing menu...');
-    const menuItems = document.querySelectorAll('.menu-item');
-    console.log('Found menu items:', menuItems.length);
-    const songVotesView = document.getElementById('song-votes-view');
-    const weeklySummaryView = document.getElementById('weekly-summary-view');
 
-    menuItems.forEach(item => {
-        item.addEventListener('click', () => {
-            console.log('Menu item clicked:', item.dataset.view);
-            // Remove active class from all items
-            menuItems.forEach(i => i.classList.remove('active'));
-            // Add active class to clicked item
-            item.classList.add('active');
-            
-            // Show/hide appropriate view
-            const view = item.dataset.view;
-            songVotesView.style.display = view === 'song-votes' ? 'block' : 'none';
-            weeklySummaryView.style.display = view === 'weekly-summary' ? 'block' : 'none';
-            
-            if (view === 'weekly-summary') {
-                updateWeeklySummary();
-            }
-        });
-    });
-}
 async function updatePodium(weekVotes) {
     const podiumSection = document.querySelector('.top-songs-podium');
     const finalistsPodium = document.querySelector('.finalists-podium');
@@ -252,7 +316,7 @@ function updateWeeklySummary() {
                     grid: {
                         color: 'rgba(255,255,255,.15)'
                     }
-                },
+                }
             },
             plugins: {
                 legend: {
@@ -271,6 +335,63 @@ function updateWeeklySummary() {
         }
     });
 }
+
+// Add event listener to summaryWeekSelect
+document.getElementById('summaryWeekSelect').addEventListener('change', updateWeeklySummary);
+// Update initializeMenu to properly handle view switching
+function initializeMenu() {
+    console.log('Initializing menu...');
+    const menuItems = document.querySelectorAll('.menu-item[data-view]');
+    console.log('Found menu items:', menuItems.length);
+    const songVotesView = document.getElementById('song-votes-view');
+    const weeklySummaryView = document.getElementById('weekly-summary-view');
+
+    // Initialize summary week select with unique weeks from votes data
+    const summaryWeekSelect = document.getElementById('summaryWeekSelect');
+    summaryWeekSelect.innerHTML = '<option value="">Select Week</option>';
+    
+    // Get unique weeks from votes data
+    const uniqueWeeks = [...new Set(votes.map(v => v.week))].sort((a, b) => {
+        // Custom sort: numeric weeks first, then '2nd-chance', then 'Finals'
+        if (!isNaN(a) && !isNaN(b)) return parseInt(a) - parseInt(b);
+        if (!isNaN(a)) return -1;
+        if (!isNaN(b)) return 1;
+        if (a === '2nd-chance') return -1;
+        if (b === '2nd-chance') return 1;
+        return 0;
+    });
+
+    // Populate select with all available weeks
+    uniqueWeeks.forEach(week => {
+        const option = document.createElement('option');
+        option.value = week;
+        option.textContent = isNaN(week) ? week : `Week ${week}`;
+        summaryWeekSelect.appendChild(option);
+    });
+
+    // Add event listener for week selection
+    summaryWeekSelect.addEventListener('change', updateWeeklySummary);
+
+    menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            console.log('Menu item clicked:', item.dataset.view);
+            menuItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            
+            const view = item.dataset.view;
+            songVotesView.style.display = view === 'song-votes' ? 'block' : 'none';
+            weeklySummaryView.style.display = view === 'weekly-summary' ? 'block' : 'none';
+            
+            if (view === 'weekly-summary') {
+                const chartCanvas = document.getElementById('weekSummaryChart');
+                chartCanvas.style.height = '1200px';
+                updateWeeklySummary();
+            }
+        });
+    });
+}
+
+
 function parseSubmissionsCSV(csv) {
     const lines = csv.split('\n');
     const result = [];
@@ -359,18 +480,43 @@ function updateSongSelect() {
 
 function initializeSelects() {
     const weekSelect = document.getElementById('weekSelect');
-    weekSelect.innerHTML = '<option value="">Select Week</option>';
+    const summaryWeekSelect = document.getElementById('summaryWeekSelect');
     
-    for (let week = 1; week <= 5; week++) {
-        const option = document.createElement('option');
-        option.value = week.toString();
-        option.textContent = `Week ${week}`;
-        weekSelect.appendChild(option);
-    }
+    // Clear existing options
+    weekSelect.innerHTML = '<option value="">Select Week</option>';
+    summaryWeekSelect.innerHTML = '<option value="">Select Week</option>';
+    
+    // Get unique weeks from votes data
+    const uniqueWeeks = [...new Set(votes.map(v => v.week))].sort((a, b) => {
+        // Custom sort: numeric weeks first, then '2nd-chance', then 'Finals'
+        if (!isNaN(a) && !isNaN(b)) return parseInt(a) - parseInt(b);
+        if (!isNaN(a)) return -1;
+        if (!isNaN(b)) return 1;
+        if (a === '2nd-chance') return -1;
+        if (b === '2nd-chance') return 1;
+        return 0;
+    });
+
+    // Populate both selects with all available weeks
+    uniqueWeeks.forEach(week => {
+        // For main week select
+        const option1 = document.createElement('option');
+        option1.value = week;
+        option1.textContent = isNaN(week) ? week : `Week ${week}`;
+        weekSelect.appendChild(option1);
+        
+        // For summary week select
+        const option2 = document.createElement('option');
+        option2.value = week;
+        option2.textContent = isNaN(week) ? week : `Week ${week}`;
+        summaryWeekSelect.appendChild(option2);
+    });
 
     weekSelect.addEventListener('change', updateSongSelect);
     document.getElementById('songSelect').addEventListener('change', updateVisualization);
+    summaryWeekSelect.addEventListener('change', updateWeeklySummary);
 }
+
 
 function getSongIdFromUrl(url) {
     const matches = url.match(/song\/([^/]+)/);
@@ -478,6 +624,7 @@ async function getSongInfo(songId) {
         imageUrl: glitchFallback
     };
 }
+
 async function updateVisualization() {
     const songSelect = document.getElementById('songSelect');
     const weekSelect = document.getElementById('weekSelect');
@@ -635,7 +782,8 @@ function updateChart(songData) {
             }
         }
     });
-}function createAudioVisualizer(audioElement) {
+}
+function createAudioVisualizer(audioElement) {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
@@ -687,5 +835,10 @@ function updateChart(songData) {
     }
     animate();
 }
-
+// Add these function calls at the bottom of script.js
+document.addEventListener('DOMContentLoaded', () => {
+    fetchData();
+    initializeMobileMenu();
+    initializeMenu();
+});
 fetchData();
