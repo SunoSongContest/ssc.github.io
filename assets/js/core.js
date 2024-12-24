@@ -14,7 +14,8 @@ let filenameCases = {
 async function loadReadme() {
     const readmeView = document.getElementById('readme-view');
     try {
-        const response = await fetch('/rules/README.md');
+        // Use the correct path to the tools README
+        const response = await fetch('/rules/ssc6/tools/README.md');
         const readmeContent = await response.text();
         readmeView.innerHTML = marked.parse(readmeContent);
         console.log('README content loaded successfully');
@@ -22,20 +23,30 @@ async function loadReadme() {
         console.error('Error loading README:', error);
     }
 }
+
 // Define initialization functions first
 function initializeCore() {
+    console.log('Core initialization started');
     document.addEventListener('DOMContentLoaded', () => {
-        // Wait for ui-handlers.js to load
-        if (typeof initializeMenu === 'function') {
-            initializeMenu();
-            initializeMobileMenu();
-            fetchData();
-        } else {
-            console.log('Waiting for UI handlers to load...');
-            // Retry after a short delay
-            setTimeout(initializeCore, 100);
-        }
+        console.log('DOM loaded, initializing application');
+        initializeViews();
+        fetchData();
+        setupMenuHandlers();
+        initializeWeekListeners(); // Add here
     });
+}
+
+function initializeViews() {
+    const readmeView = document.getElementById('readme-view');
+    if (readmeView) {
+        loadReadme();
+        readmeView.style.display = 'block';
+    }
+}
+// Helper function to get correct asset path
+function getAssetPath(relativePath) {
+    const basePath = window.location.pathname.split('/rules')[0] + '/rules';
+    return `${basePath}${relativePath}`;
 }
 
 // Start initialization
@@ -105,9 +116,4 @@ async function loadEditionData(edition) {
         console.error(`Error loading SSC${edition} data:`, error);
         return null;
     }
-}
-// Helper function to get correct asset path
-function getAssetPath(relativePath) {
-    const basePath = window.location.pathname.split('/rules')[0] + '/rules';
-    return `${basePath}${relativePath}`;
 }

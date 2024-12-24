@@ -581,10 +581,10 @@ tag: tool
     <select id="sscEditionSelect" class="menu-item">
         <option value="">Select SSC Edition</option>
     </select>
-    <div class="menu-item hidden" data-view="song-votes">
+    <div class="menu-item" data-view="song-votes" style="display: none;">
         <span>Song Votes</span>
     </div>
-    <div class="menu-item hidden" data-view="weekly-summary">
+    <div class="menu-item" data-view="weekly-summary" style="display: none;">
         <span>Weekly Summary</span>
     </div>
     <div class="copyright">
@@ -592,8 +592,7 @@ tag: tool
     </div>
 </div>
 <div class="container">
-    <!-- README view comes first -->
-    <div id="readme-view">
+    <div id="readme-view" style="display: block;">
         <!-- README content will be loaded here -->
     </div>
     <div id="song-votes-view" style="display: none;">

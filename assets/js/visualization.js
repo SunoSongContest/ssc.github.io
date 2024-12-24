@@ -323,6 +323,12 @@ function updateWeeklySummary() {
     if (!selectedWeek) return;
     
     const weekVotes = votes.filter(v => v.week === selectedWeek);
+    
+    // Destroy existing chart before creating new one
+    if (window.chart) {
+        window.chart.destroy();
+    }
+    
     updatePodium(weekVotes);
     
     // Reset chart size before updating
@@ -332,9 +338,7 @@ function updateWeeklySummary() {
     const sortedVotes = weekVotes.sort((a, b) => parseInt(b.points) - parseInt(a.points));
     
     const ctx = document.getElementById('weekSummaryChart').getContext('2d');
-    if (chart) chart.destroy();
-    
-    chart = new Chart(ctx, {
+    window.chart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: sortedVotes.map(v => v.songName),
@@ -393,7 +397,6 @@ function updateWeeklySummary() {
         }
     });
 }
-
 // Add this after updateWeeklySummary function is defined
 document.addEventListener('DOMContentLoaded', () => {
     const summaryWeekSelect = document.getElementById('summaryWeekSelect');

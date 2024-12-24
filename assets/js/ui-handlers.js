@@ -1,64 +1,76 @@
 // First define the function
 function setupMenuHandlers() {
     const menuItems = document.querySelectorAll('.menu-item[data-view]');
-    const readmeView = document.getElementById('readme-view');
-    const songVotesView = document.getElementById('song-votes-view');
-    const weeklySummaryView = document.getElementById('weekly-summary-view');
-
+    console.log('Setting up menu handlers for items:', menuItems.length);
+    
     menuItems.forEach(item => {
+        // Initially hide menu items
+        item.style.display = 'none';
+        
         item.addEventListener('click', () => {
             console.log('Menu item clicked:', item.dataset.view);
-            menuItems.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-            
-            const view = item.dataset.view;
-            readmeView.style.display = 'none';
-            songVotesView.style.display = view === 'song-votes' ? 'block' : 'none';
-            weeklySummaryView.style.display = view === 'weekly-summary' ? 'block' : 'none';
+            toggleViews(item.dataset.view);
         });
     });
 }
 
-// UI initialization and event handlers
-async function initializeMenu() {
+function toggleViews(selectedView) {
+    const views = {
+        readme: document.getElementById('readme-view'),
+        songVotes: document.getElementById('song-votes-view'),
+        weeklySummary: document.getElementById('weekly-summary-view')
+    };
+    
+    // Hide all views
+    Object.values(views).forEach(view => {
+        if (view) view.style.display = 'none';
+    });
+    
+    // Show selected view
+    const viewToShow = selectedView === 'song-votes' ? views.songVotes : 
+                      selectedView === 'weekly-summary' ? views.weeklySummary : 
+                      views.readme;
+    
+    if (viewToShow) viewToShow.style.display = 'block';
+}
+function initializeMenu() {
     console.log('Initializing menu...');
-    const menuItems = document.querySelectorAll('.menu-item[data-view]');
-    const readmeView = document.getElementById('readme-view');
     const songVotesView = document.getElementById('song-votes-view');
     const weeklySummaryView = document.getElementById('weekly-summary-view');
+    const readmeView = document.getElementById('readme-view');
+    
+    console.log('Views found:', {
+        songVotesView,
+        weeklySummaryView,
+        readmeView
+    });
 
-    // Hide other views initially
-    songVotesView.style.display = 'none';
-    weeklySummaryView.style.display = 'none';
-    readmeView.style.display = 'block';
+    const menuItems = document.querySelectorAll('.menu-item[data-view]');
+    console.log('Menu items found:', menuItems.length);
 
-    // Load README content
-    try {
-        const response = await fetch('/rules/ssc6/tools/README.md');
-        const text = await response.text();
-        console.log('Raw README content:', text);
-        readmeView.innerHTML = marked.parse(text);
-        console.log('README content loaded and parsed');
-    } catch (err) {
-        console.error('Error loading README:', err);
-        readmeView.innerHTML = '<h1>Error loading documentation</h1>';
+    // Show readme by default
+    if (readmeView) {
+        readmeView.style.display = 'block';
+        songVotesView.style.display = 'none';
+        weeklySummaryView.style.display = 'none';
     }
 
-    // Handle menu item clicks
     menuItems.forEach(item => {
         item.addEventListener('click', () => {
-            console.log('Menu item clicked:', item.dataset.view);
+            const view = item.dataset.view;
+            console.log('Menu item clicked:', view);
+            
+            // Update menu item states
             menuItems.forEach(i => i.classList.remove('active'));
             item.classList.add('active');
             
-            const view = item.dataset.view;
-            readmeView.style.display = 'none';
+            // Update view visibility
+            if (readmeView) readmeView.style.display = 'none';
             songVotesView.style.display = view === 'song-votes' ? 'block' : 'none';
             weeklySummaryView.style.display = view === 'weekly-summary' ? 'block' : 'none';
         });
     });
 }
-
 // Export for use in visualization.js
 window.setupMenuHandlers = setupMenuHandlers;
     const summaryWeekSelect = document.getElementById('summaryWeekSelect');
